@@ -1,0 +1,30 @@
+# The first forced height on the five-by-seven grid
+
+Let $B(h)$ be the minimum number of monochromatic boxes on the binary $5\times7\times h$ grid. At height 52 a box-free coloring exists. At height 53 every stack has at least four boxes: every layer occupies at least eight of the 420 colored rectangle slots, so the total number of incidences is at least 424. Summing $\binom{x}{2}$ over slot multiplicities $x$ counts boxes. The [53-layer certificate](5x7x53_five_box_certificate.txt) has one empty slot, 414 single slots and five double slots. Its first 52 layers are box-free and each contains just eight rectangles. Hence $4\le B(53)\le5$. The [independent counter](verify_first_forced.py) verifies both statements.
+
+
+## Necessary structure at four boxes
+
+Equality requires all 53 layers to be minimum and all 420 slots to occur. Four occur twice and all others once. Indeed one extra rectangle incidence, an empty slot, or a slot used three or more times would increase the lower bound. No two layers are equal since that would already contribute eight boxes.
+
+Let $w_i$ be the weight of row $i$ across its 371 positions. In a minimum layer every colored row pair agrees on one or two columns. Consequently the difference in rectangle incidences for colors one and zero on row pair $ij$ is $w_i+w_j-371$ across the stack. Its absolute value is bounded by the number of double slots on that row pair. Thus
+$$\sum_{i<j}|w_i+w_j-371|\le4.$$
+At least four of the ten pairs have weights of the same parity and each such pair contributes at least one. Equality forces a split into parity classes of sizes two and three, with opposite-class pairs summing to 371. Weights are constant within each class and the within-class differences from 371 have absolute value one. The two weights are therefore 185 and 186. Each within-class pair carries exactly one doubled slot, in bit zero at weight 185 and bit one at weight 186. The four supporting pairs form a disjoint triangle and edge.
+
+## Restricting the symmetry group
+
+**Proposition.** For a stack attaining four boxes at height 53, the row action of its full automorphism group is faithful. It has order at most two. A nontrivial symmetry interchanges three pairs of columns.
+
+**Proof.** The dimensions are distinct. The total number of cells is odd, so no coordinate permutation exchanges the two colors globally. Row weights give a row action in $S_2\times S_3$. Because the 53 layers are distinct, their permutation is determined by the actions on rows and columns.
+
+First consider a prime-order symmetry fixing all rows. A nonidentity column permutation of odd prime order $p$ has a cycle of size at least three. Since $p\in\{3,5,7\}$ and $p$ does not divide 53, at least one layer is fixed. In this layer the words in that cycle are identical. Any agreeing pair in one such word would agree in the same bit in at least three columns, impossible for a minimum layer.
+
+For an involution fixing all rows, again some layer is fixed. If at least two column pairs are swapped, their identical column words in this layer contribute at least four rectangles per swapped pair. Retaining just one endpoint of each of these two pairs leaves a $5\times5$ subgrid with at least two more rectangles. To see the last bound directly, if there is an unbalanced column then the sum of the 20 colored-pair agreements exceeds 20 by at least two. Otherwise, writing $k$ for each such agreement count, the rectangle count is $\tfrac12\sum(k-1)^2$. In odd width at least four row pairs have row weights of equal parity, hence an odd difference between their two values of $k$. This gives the same lower bound. Thus two or more transpositions cannot preserve a minimum layer.
+
+If there is exactly one transposed column pair, eleven column pairs are fixed as sets. Consequently $11\cdot20=220$ slots are fixed. At least 216 are used just once and must belong to fixed layers, so at least 27 layers are fixed. Yet each fixed layer contributes at least four incidences on the transposed column pair. That pair has capacity at most 24 counting the four double uses, allowing at most six fixed layers. This excludes the last case. By Cauchy's theorem the kernel of the row action is trivial.
+
+It remains to exclude elements of order three in $S_2\times S_3$. Such a row action cycles the three-row class and fixes the other two rows. Their unique doubled slot forces its column pair to be invariant. Thus the order-three column action fixes both endpoints, and on seven columns this leaves at least four fixed columns. In any fixed layer the three cyclically permuted rows have equal bits in each fixed column. Since each bit can occur in at most two agreements for each pair, there must be exactly four fixed columns with two of each bit. Every pair among the three rows has now exhausted its allowance in both colors. At each remaining column at least two of the three bits must agree, a contradiction. An order-three permutation of 53 layers needs a fixed layer. This excludes order three, so the group embeds in a Sylow two-subgroup of $S_2\times S_3$, as claimed.
+
+Finally suppose a nonidentity involution interchanges rows $i,j$. In each fixed column of a fixed layer these two rows agree. At most four such agreements can occur, two per color, so the column action has at least two transpositions. If it has exactly two, there are three fixed columns. For either transposed column pair and either color, the slot consisting of rows $i,j$ on this column pair is fixed. A fixed layer using it would make the two rows agree on at least five columns, impossible. Thus each of these four slots must be supplied by a pair of nonfixed layers and is doubled. The row pair $ij$ supports at most one doubled slot. It follows that each nonidentity involution transposes three column pairs, hence induces an odd column permutation. Since the group embeds in $C_2\times C_2$, all nonidentity elements are involutions. Two distinct nonidentity elements would have a nonidentity product with even column sign, a contradiction.
+
+The restriction applies to hypothetical four-box minimizers. The existence of such a stack remains open.
