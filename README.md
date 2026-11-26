@@ -1,32 +1,32 @@
-# 5×7 无单色长方体染色
+# Box-free colorings with 5 × 7 layers
 
-给每个 5×7 方格层染红、蓝两色。叠起若干层后，任意两行、两列、两层确定的八个点不能全同色。记最大可叠层数为 N(5,7)。
+How many red-and-blue 5 × 7 layers can you stack without forming a monochromatic box? Choose any two rows, two columns, and two layers. Their eight intersections form the corners of a box. A stack is box-free if every such box has corners of both colors. Write $N(5,7)$ for the maximum number of layers in a box-free stack.
 
-## 文献与问题
+## Known bounds and references
 
-截至 2026-11-26，公开界为 50 ≤ N(5,7) ≤ 52。Alm 与 Miller 猜测答案是 50。一个有效的 51 层构造可以推翻猜想，排除 52 层可以收紧上界。给出 51 层构造且排除 52 层才能将精确值定为 51。
+As of November 26, 2026, the published bounds are $50 \le N(5,7) \le 52$. Alm and Miller conjecture that $N(5,7) = 50$. A box-free stack of 51 layers would disprove the conjecture. Ruling out 52 layers would lower the upper bound to 51. Together, those two results would establish $N(5,7) = 51$.
 
-- [Alm 与 Miller，原论文第 6 节](https://arxiv.org/html/2611.19635v1#S6)
-- [作者的 50 层染色数据](https://github.com/algorithmachine/box-free-colorings/blob/main/5x7x50_exact_zero_certificate.txt)
-- [Cooper、Fenner 与 Purewal，Monochromatic Boxes in Colored Grids](https://epubs.siam.org/doi/10.1137/080740702)
+- [Section 6 of Alm and Miller's paper](https://arxiv.org/html/2611.19635v1#S6)
+- [Alm and Miller's 50-layer coloring](https://github.com/algorithmachine/box-free-colorings/blob/main/5x7x50_exact_zero_certificate.txt)
+- [Cooper, Fenner, and Purewal, *Monochromatic Boxes in Colored Grids*](https://epubs.siam.org/doi/10.1137/080740702)
 
-## 已复核的实验
+## Computational results
 
-以下局部搜索均从作者公布的同一份 50 层构造出发。
+Each local search starts from Alm and Miller's published 50-layer coloring.
 
-| 检查 | 结果 |
+| Check | Result |
 | --- | --- |
-| 复核 50 层 | 每层恰有 8 个单色矩形，跨层单色长方体为 0 |
-| 直接加一层 | 0 种 |
-| 删一层补两层 | 50 种删法均无解 |
-| 删两层补三层 | 1,225 种删法均无解。保留 48 层后，每种删法有 2 至 14 个候选层，均不存在三个两两相容的候选层 |
-| 枚举恰有 8 个单色矩形的单层 | 忽略列顺序后有 900 种。再允许行置换及全层红蓝互换后有 6 类，大小为 60、120、120、120、240、240 |
+| Verify the 50-layer coloring | Each layer contains exactly 8 monochromatic rectangles. The stack contains 0 monochromatic boxes. |
+| Append one layer | No layer can be added. |
+| Remove one layer and insert two | None of the 50 choices of layer to remove admits a compatible pair of replacements. |
+| Remove two layers and insert three | For each of the 1,225 choices of two layers to remove, between 2 and 14 candidate layers fit the remaining 48. No choice admits three pairwise compatible candidates. |
+| Enumerate single layers with exactly 8 monochromatic rectangles | There are 900 layers up to column permutations. Allowing row permutations and a global swap of red and blue groups them into 6 classes of sizes 60, 120, 120, 120, 240, and 240. |
 
-局部穷举只排除了从该构造出发的指定操作。六类是单层分类；叠层时同一类型的不同摆放会占用不同的有色矩形位置。分类的文献原创性尚未核实。
+The exhaustive local searches rule out only the listed moves from this particular coloring. The six classes describe individual layers. When stacking layers, different arrangements from the same class can occupy different colored rectangle positions. Whether this classification has appeared in the literature remains an open question for this project.
 
-## 复跑
+## Reproducing the results
 
-在项目根目录用 Python 3.9 或以上版本执行。脚本只使用标准库。
+Run the following commands from the repository root with Python 3.9 or later. The scripts use only the standard library.
 
 ```sh
 python3 check_box_layers.py 5x7x50_exact_zero_certificate.txt
@@ -34,6 +34,8 @@ python3 check_two_deletions.py
 python3 classify_minimal_layers.py
 ```
 
-## 下一条待检验的思路
+## A possible route to a tighter upper bound
 
-共有 2 × C(5,2) × C(7,2) = 420 个有色矩形位置，每种位置最多用一次。52 层至少占 416 个位置，因此其中至少 48 层各只有 8 个单色矩形。可以比较六类在每对行、每对列和两种颜色上的占用方式，寻找总数以外的必要条件。该思路尚未给出新的全局上界。
+A color, a pair of rows, and a pair of columns together specify one of $2 \binom{5}{2} \binom{7}{2} = 420$ colored rectangle positions. In a box-free stack, each position can occur in at most one layer. Each layer contains at least 8 monochromatic rectangles, so 52 layers would occupy at least 416 positions. That leaves room for only 4 rectangles above the minimum, so at least 48 of the layers would have exactly 8 rectangles each.
+
+Comparing how the six classes use each row pair, column pair, and color may reveal necessary conditions beyond the total count. This approach has yet to yield a tighter global upper bound.
