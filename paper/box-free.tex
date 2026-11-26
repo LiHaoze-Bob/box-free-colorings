@@ -1,0 +1,136 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,booktabs,geometry,hyperref}
+\geometry{margin=1in}
+\hypersetup{hidelinks,pdftitle={The maximum height of a box-free 5 by 7 grid}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newcommand{\slots}{\mathcal S}
+\title{The maximum height of a box-free $5\times7$ grid}
+\author{}\date{November 26, 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+We prove that the maximum height of a binary $5\times7$ grid avoiding a monochromatic box is 52. The construction attains the counting upper bound of Alm and Miller, who conjectured a maximum of 50. Two commuting color-reversing involutions develop 15 seed matrices into 52 layers. Forty-eight layers contain eight monochromatic rectangles and four contain nine. Together they cover every colored rectangle position exactly once. We give a finite certificate for the construction and determine its full automorphism group.
+\end{abstract}
+
+\section{From layers to a packing}
+A box in a three-dimensional grid is the Cartesian product of three two-element sets. Let $N(5,7)$ be the largest $h$ such that the $5\times7\times h$ grid admits a binary coloring with no monochromatic box. Alm and Miller constructed a coloring of height 50 and conjectured that this height was maximal \cite[\S6]{alm}. We use the same layer-counting bound as they did, and exhibit a coloring that attains it.
+
+For an unordered row pair $p$, an unordered column pair $q$, and a bit $b$, call $(p,q,b)$ a \emph{slot}. A layer occupies this slot if its four entries on $p\times q$ equal $b$. Two layers sharing a slot form a monochromatic box, so a stack is box-free precisely when its occupied slot sets are pairwise disjoint. There are $2\binom52\binom72=420$ slots.
+
+For a layer $A$ let $k_{p,b}(A)$ count the columns in which both rows of $p$ have bit $b$. Its number of occupied slots is
+\[
+ R(A)=\sum_{p,b}\binom{k_{p,b}(A)}2.
+\]
+A column with $a$ ones contributes $\binom a2+\binom{5-a}2\ge4$ to the sum of the $k_{p,b}$. Thus $\sum k_{p,b}\ge28$ and $\binom k2\ge k-1$ gives $R(A)\ge28-20=8$. It follows that $N(5,7)\le\lfloor420/8\rfloor=52$.
+
+\begin{theorem}\label{t:main}
+The maximum height is $N(5,7)=52$.
+\end{theorem}
+
+\section{A perfect packing from 15 seeds}
+Number rows $0,\ldots,4$ and columns $0,\ldots,6$. The operation $(\sigma,\tau,e)$ moves the entry at $(i,j)$ to $(\sigma i,\tau j)$ and adds $e$ modulo two to its bit. Take
+\begin{align*}
+ a&=((0\ 1),\ (0\ 1)(2\ 3)(4\ 5),\ 1),\\
+ b&=((2\ 3),\ (0\ 2)(1\ 3),\ 1).
+\end{align*}
+These are commuting involutions. For each seed in Table~\ref{t:seeds}, include its distinct images under $G=\{1,a,b,ab\}$. Each string in the table is one row, in order of increasing column index.
+
+\begin{table}[ht]\centering
+\caption{The seeds, their orbit sizes $s$, and their rectangle counts $R$.}\label{t:seeds}
+\small\begin{tabular}{c c c c c c r r}\toprule
+Seed & Row 0 & Row 1 & Row 2 & Row 3 & Row 4 & $s$ & $R$\\\midrule
+1 & \texttt{0100101} & \texttt{0010011} & \texttt{1010110} & \texttt{0101110} & \texttt{1001001} & 2 & 8\\
+2 & \texttt{0101101} & \texttt{1010011} & \texttt{1110100} & \texttt{0111010} & \texttt{0000110} & 2 & 9\\
+3 & \texttt{1100001} & \texttt{0011001} & \texttt{0101010} & \texttt{1010100} & \texttt{0000111} & 2 & 9\\
+4 & \texttt{1101100} & \texttt{1011010} & \texttt{1000101} & \texttt{0001011} & \texttt{0110001} & 2 & 8\\
+5 & \texttt{1111000} & \texttt{0010110} & \texttt{1001011} & \texttt{1100101} & \texttt{0101110} & 4 & 8\\
+6 & \texttt{1001010} & \texttt{1110000} & \texttt{0101101} & \texttt{0100110} & \texttt{0010011} & 4 & 8\\
+7 & \texttt{1000111} & \texttt{0101100} & \texttt{0101011} & \texttt{0011110} & \texttt{1110000} & 4 & 8\\
+8 & \texttt{0001110} & \texttt{0111010} & \texttt{0110101} & \texttt{1011001} & \texttt{1100010} & 4 & 8\\
+9 & \texttt{0111010} & \texttt{0100101} & \texttt{1001011} & \texttt{1010110} & \texttt{0011100} & 4 & 8\\
+10 & \texttt{1100011} & \texttt{0110110} & \texttt{1011000} & \texttt{0001111} & \texttt{0010101} & 4 & 8\\
+11 & \texttt{0001011} & \texttt{0010110} & \texttt{0111100} & \texttt{1011000} & \texttt{1100101} & 4 & 8\\
+12 & \texttt{0011011} & \texttt{1010110} & \texttt{1001101} & \texttt{0111000} & \texttt{1100001} & 4 & 8\\
+13 & \texttt{0100101} & \texttt{0101010} & \texttt{1011100} & \texttt{0010111} & \texttt{1001011} & 4 & 8\\
+14 & \texttt{0011110} & \texttt{1001100} & \texttt{1111000} & \texttt{0100101} & \texttt{1000011} & 4 & 8\\
+15 & \texttt{1011001} & \texttt{1100010} & \texttt{0110011} & \texttt{0001110} & \texttt{0101101} & 4 & 8\\
+\bottomrule\end{tabular}\end{table}
+
+\begin{proof}[Verification of Theorem~\ref{t:main}]
+The group acts on slots by the same row, column and color permutations. Sort the slots lexicographically as $(i,j,u,v,c)$, where $i<j$ and $u<v$. Number the slot orbits from 1 in increasing order of their least elements. There are 108 slot orbits. The six numbered $3,4,11,78,79,86$ have size two and the others have size four. Indeed $a$ and $b$ reverse colors, while $ab$ fixes two row pairs and three column pairs, hence twelve colored slots.
+
+Table~\ref{t:orbits} records the slot orbits met by each seed. To reproduce a row, take each monochromatic rectangle of its seed, apply $1,a,b,ab$ to the slot, sort the two indices within each pair, and look up the least of the four images. For example, the first seed meets two orbits of size two and three of size four, giving 16 distinct slots in its two layers.
+
+\begin{table}[ht]\centering
+\caption{Slot coverage by seed orbit. The last column sums the sizes of the listed slot orbits.}\label{t:orbits}
+\small\begin{tabular}{c l r}\toprule Seed&Slot orbits&Slots\\\midrule
+1 & 3, 16, 43, 63, 86 & 16\\
+2 & 27, 30, 57, 78, 105 & 18\\
+3 & 11, 32, 37, 56, 89 & 18\\
+4 & 4, 20, 39, 79, 101 & 16\\
+5 & 18, 35, 66, 72, 73, 85, 100, 103 & 32\\
+6 & 12, 23, 24, 62, 67, 77, 82, 91 & 32\\
+7 & 15, 22, 28, 47, 49, 54, 74, 81 & 32\\
+8 & 6, 9, 14, 17, 60, 65, 75, 84 & 32\\
+9 & 21, 46, 55, 64, 68, 83, 93, 104 & 32\\
+10 & 5, 50, 53, 58, 70, 94, 99, 107 & 32\\
+11 & 1, 34, 41, 44, 45, 76, 87, 95 & 32\\
+12 & 7, 13, 31, 38, 48, 98, 102, 106 & 32\\
+13 & 2, 26, 51, 61, 69, 80, 92, 108 & 32\\
+14 & 8, 10, 25, 29, 36, 52, 59, 88 & 32\\
+15 & 19, 33, 40, 42, 71, 90, 96, 97 & 32\\
+\bottomrule\end{tabular}\end{table}
+
+Each line covers exactly $sR$ slots, the number of incidences contributed by the $s$ layers. Thus no slot repeats within a line. The lists partition the integers 1 through 108, so each slot belongs to exactly one line. In total there are $4\cdot2+11\cdot4=52$ layers, occupying $48\cdot8+4\cdot9=420$ distinct slots. This proves the lower bound and completes the proof.
+\end{proof}
+
+The search used the group action to reduce the packing problem to exact cover. A candidate was a seed orbit whose layers had pairwise disjoint slot sets. Its entries in the exact-cover matrix were the slot orbits it covered. Selecting compatible candidates covering the 108 slot orbits produced Table~\ref{t:orbits}. The expanded coloring and its independent reconstruction are available in the repository \cite{data}. The search is unnecessary for verification.
+
+\section{Row weights and automorphisms}
+There is a small amount of slack in the upper bound. We keep track of where it occurs. For $k\ge0$ set $w(k)=\binom{k}{2}-k+1=(k-1)(k-2)/2$. For a stack of height $h$ define $W_{p,b}=\sum_A w(k_{p,b}(A))$, where the sum runs over its layers. Write $L_{p,b}$ for the number of the 21 slots at $(p,b)$ left unused. Let $U$ be the sum over columns in all layers of $\binom a2+\binom{5-a}2-4$, where $a$ is the column weight. All these quantities are nonnegative integers. Double counting gives
+\begin{equation}\label{eq:budget}
+ U+\sum_{p,b}(W_{p,b}+L_{p,b})=420-8h.
+\end{equation}
+Indeed, the total number of occupied slots is both $8h+U+\sum W_{p,b}$ and $420-\sum L_{p,b}$.
+
+\begin{proposition}\label{p:balance}
+At height 52 all five rows have 182 ones over the stack, with at most one exception having 181 or 183. An exception forces every column of every layer to have weight two or three.
+\end{proposition}
+\begin{proof}
+Let $a_i$ denote the total number of ones in row $i$ and put $x_i=a_i-182$. For $p=\{i,j\}$ the difference between the two agreement counts equals the sum of the two row weights minus seven in each layer. Also $\sum_A k_{p,b}(A)=h+21-L_{p,b}-W_{p,b}$. Subtract the two bit counts to get
+\[
+ x_i+x_j=L_{p,0}+W_{p,0}-L_{p,1}-W_{p,1}.
+\]
+Equation~\eqref{eq:budget} implies $\sum_{i<j}|x_i+x_j|\le4-U$. If $u,v,z$ of the integers $x_i$ are positive, negative and zero, respectively, the same-sign and zero--nonzero pairs already contribute at least $u(u-1)+v(v-1)+z(u+v)$. For $u+v=1,2,3,4,5$ its minimum is respectively $4,6,8,8,8$. Thus the only possibilities are the zero vector and a single entry $\pm1$. In the latter case $U=0$.
+\end{proof}
+
+\begin{proposition}\label{p:aut}
+The full automorphism group of the coloring in Table~\ref{t:seeds}, allowing coordinate permutations in each dimension and a global color exchange, is $G\cong C_2\times C_2$.
+\end{proposition}
+\begin{proof}
+Put $J_p=\sum_c(W_{p,c}+L_{p,c})$. Every slot is filled. From Table~\ref{t:seeds}, only seeds 2 and 3 and their mates contribute to $W$. In seed 2 the only exceptional count is $k_{\{0,1\},0}=0$. In seed 3 it is $k_{\{2,3\},1}=0$. Their mates interchange bits on the same respective pairs. Thus $J_p=2$ on $M=\{\{0,1\},\{2,3\}\}$ and $J_p=0$ elsewhere. Every automorphism preserves the matching $M$ on the five row indices.
+
+We first prove that the action on the rows is faithful. A color-preserving automorphism fixing all rows must preserve the exceptional layers individually: their vectors of row weights are $(4,4,4,4,2)$, $(3,3,3,3,5)$, $(3,3,3,3,3)$ and $(4,4,4,4,4)$. The seven columns in each are distinct, so fixing one of these layers fixes every column. Since all layers are distinct, the layer action is trivial as well.
+
+A color-reversing automorphism fixing all rows would permute the 364 positions indexed by a column and a layer. Every cycle would have even length, alternating a five-bit column word and its complement. Select alternate positions on each cycle. For a row pair $p$, the full Hamming distance is $364-\sum_{A,c} k_{p,c}(A)=218+J_p$, by the identity in Proposition~\ref{p:balance}. On the 182 selected positions the distance is half this number. It would be odd on all eight pairs outside $M$. Odd distances join binary words with opposite weight parity, and at most $2\cdot3=6$ of the ten pairs of five words can cross such a bipartition. This excludes the color-reversing case.
+
+The stabilizer of $M$ in $S_5$ has order eight. A larger group than $G$ would project faithfully onto the entire stabilizer. This stabilizer contains a four-cycle whose square is $(0\ 1)(2\ 3)$, the row action of $ab$. Its lift would therefore have square $ab$ by faithfulness. But the column permutation of $ab$ is $(0\ 3)(1\ 2)(4\ 5)$, which is odd, whereas the square of a permutation is even. Hence the four displayed symmetries are all of them.
+\end{proof}
+
+\section*{Reproducing the result}
+The file \texttt{5x7x52\_klein\_certificate.txt} lists the 52 layers in order, each as five lines of seven bits. The script \texttt{verify\_klein\_52.py} uses only the Python standard library. It expands Table~\ref{t:seeds}, compares every layer with this file, and checks all rectangle incidences. A verifier independent of the group action can instead loop over unordered pairs of layers $A,B$. For each row pair $i,j$ and bit $c$, let
+\[
+ t=\#\{u:A_{iu}=A_{ju}=B_{iu}=B_{ju}=c\}.
+\]
+Adding $\binom{t}{2}$ gives zero over all $\binom{52}{2}$ layer pairs. This counts the monochromatic members of the full set of $\binom52\binom72\binom{52}2=278{,}460$ possible boxes.
+
+The standalone C++17 program \texttt{search\_klein\_52.cpp} reproduces the discovery search. For size-four orbits it generates balanced-column layers with eight rectangles, first as column multisets and then in each column order. For size-two orbits it generates layers fixed by $ab$, allowing excess on the two matched row pairs. It retains one representative per candidate support. The search finds 1,156 size-two and 735,968 size-four supports. With the fixed search order in the program it returns the 15 displayed seeds after 19,307 nodes. Its output supplies a lower-bound witness independently of whether other extremal colorings share these symmetries.
+
+\begin{thebibliography}{9}
+\bibitem{alm} J. F. Alm and A. Miller, \emph{Constructive and computational methods for extremal and near-extremal box colorings}, arXiv:2611.19635v1, 2026. \url{https://arxiv.org/abs/2611.19635}.
+\bibitem{data} \emph{Box-free colorings with $5\times7$ layers}, construction data and verification scripts. \url{https://github.com/LiHaoze-Bob/box-free-colorings}.
+\end{thebibliography}
+\end{document}
