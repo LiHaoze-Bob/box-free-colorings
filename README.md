@@ -1,41 +1,56 @@
-# Box-free colorings with 5 × 7 layers
+# The maximum height of a box-free 5 × 7 grid
 
-How many red-and-blue 5 × 7 layers can you stack without forming a monochromatic box? Choose any two rows, two columns, and two layers. Their eight intersections form the corners of a box. A stack is box-free if every such box has corners of both colors. Write $N(5,7)$ for the maximum number of layers in a box-free stack.
+**The exact value is $N(5,7)=52$.** This repository contains an explicit red-and-blue coloring of the $5\times7\times52$ grid with no monochromatic box. It attains the upper bound of Alm and Miller and disproves their conjecture that the maximum is 50. [Alm and Miller, §6](https://arxiv.org/html/2611.19635v1#S6)
 
-## Known bounds and references
+[Read the short paper (PDF)](paper/box-free.pdf) · [LaTeX source](paper/box-free.tex) · [52-layer certificate](5x7x52_klein_certificate.txt) · [Verification program](verify_klein_52.py)
 
-As of November 26, 2026, the published bounds are $50 \le N(5,7) \le 52$. Alm and Miller conjecture that $N(5,7) = 50$. A box-free stack of 51 layers would disprove the conjecture. Ruling out 52 layers would lower the upper bound to 51. Together, those two results would establish $N(5,7) = 51$.
+## The construction
 
-- [Section 6 of Alm and Miller's paper](https://arxiv.org/html/2611.19635v1#S6)
-- [Alm and Miller's 50-layer coloring](https://github.com/algorithmachine/box-free-colorings/blob/main/5x7x50_exact_zero_certificate.txt)
-- [Cooper, Fenner, and Purewal, *Monochromatic Boxes in Colored Grids*](https://epubs.siam.org/doi/10.1137/080740702)
+Two rows, two columns and one color specify a colored rectangle position. There are $2\binom52\binom72=420$ such positions. A stack is box-free precisely when no position occurs in two layers. Each layer contains at least eight monochromatic rectangles, giving an upper bound of $\lfloor420/8\rfloor=52$ layers.
 
-## Computational results
+Two commuting permutations of the rows and columns, each coupled with a color exchange, generate the construction from 15 seeds. Four seed orbits have size two and eleven have size four. Of the resulting 52 layers, 48 contain eight rectangles and four contain nine. They use all $48\cdot8+4\cdot9=420$ positions exactly once. The paper lists every seed and gives a disjoint partition of the 108 position orbits. The full automorphism group of this coloring is the Klein four-group.
 
-Each local search starts from Alm and Miller's published 50-layer coloring.
+Run the following with Python 3.9 or later. The checker expands the seeds, verifies that its output matches the supplied certificate, checks every layer's rectangles, and rejects any repeated colored position.
 
-| Check | Result |
-| --- | --- |
-| Verify the 50-layer coloring | Each layer contains exactly 8 monochromatic rectangles. The stack contains 0 monochromatic boxes. |
-| Append one layer | No layer can be added. |
-| Remove one layer and insert two | None of the 50 choices of layer to remove admits a compatible pair of replacements. |
-| Remove two layers and insert three | For each of the 1,225 choices of two layers to remove, between 2 and 14 candidate layers fit the remaining 48. No choice admits three pairwise compatible candidates. |
-| Enumerate single layers with exactly 8 monochromatic rectangles | There are 900 layers up to column permutations. Allowing row permutations and a global swap of red and blue groups them into 6 classes of sizes 60, 120, 120, 120, 240, and 240. |
+```sh
+python3 verify_klein_52.py
+```
 
-The exhaustive local searches rule out only the listed moves from this particular coloring. The six classes describe individual layers. When stacking layers, different arrangements from the same class can occupy different colored rectangle positions. Whether this classification has appeared in the literature remains an open question for this project.
+The discovery search can also be reproduced from scratch with a C++17 compiler. It uses only the standard library, a fixed shuffle seed and an exact-cover search. It enumerates 737,124 distinct candidate supports and finds the displayed solution after 19,307 search nodes.
 
-## Reproducing the results
+```sh
+c++ -O3 -std=c++17 search_klein_52.cpp -o /tmp/search_klein_52
+/tmp/search_klein_52
+```
 
-Run the following commands from the repository root with Python 3.9 or later. The scripts use only the standard library.
+## Further results
+
+| Result | Proof or data | Verification |
+| --- | --- | --- |
+| A second construction gives 51 layers in nine orbits of a cyclic group of order six. | [51-layer certificate](5x7x51_cyclic_certificate.txt) | [Cyclic construction and checker](verify_cyclic_51.py) |
+| Row weights and automorphisms of extremal stacks satisfy additional parity and fixed-position restrictions. | [Row action and defect counts](stack_symmetry.md) · [Involutions](involution_obstruction.md) | The main paper gives a direct proof for the displayed 52-layer coloring. |
+| Exact rectangle minima on $5\times n$ and $6\times n$ for every $n$, and eventual quasipolynomiality at each fixed height. | [Strip formulas and proofs](strip_layers.md) | [Finite block checker](check_strip_layers.py) |
+| Exact square-layer rectangle minima for orders 9 through 21. In particular $\rho(21,21)=4250$, implying at least 1050 monochromatic boxes in every two-coloring of the $21^3$ cube. | [Square-array bounds and constructions](square_layers.md) | [Square certificate checker](check_square_layers.py) |
+
+```sh
+python3 verify_cyclic_51.py
+python3 check_strip_layers.py
+python3 check_square_layers.py
+```
+
+## Earlier experiments and the original 50-layer coloring
+
+The included [50-layer coloring](5x7x50_exact_zero_certificate.txt) comes from [Alm and Miller's repository](https://github.com/algorithmachine/box-free-colorings/blob/main/5x7x50_exact_zero_certificate.txt). It has 400 occupied positions and no box. Exhaustive local searches found no way to increase its height by deleting at most six layers and replacing them with one more than the number removed. The six-deletion check covers all $\binom{50}{6}=15{,}890{,}700$ choices. The independent 51-layer cyclic certificate also admits no such exchange through six deletions, covering $\binom{51}{6}=18{,}009{,}460$ choices at radius six. These statements concern the particular certificates supplied here.
+
+For individual $5\times7$ layers, exactly 900 column multisets attain the minimum of eight rectangles. Permuting rows and globally exchanging colors groups them into six classes of sizes 60, 120, 120, 120, 240 and 240. Column positions still matter when copies are used in a stack.
 
 ```sh
 python3 check_box_layers.py 5x7x50_exact_zero_certificate.txt
 python3 check_two_deletions.py
 python3 classify_minimal_layers.py
+c++ -O3 -std=c++17 check_exchange_radius.cpp -o /tmp/check_exchange
+/tmp/check_exchange 5x7x50_exact_zero_certificate.txt 6
+/tmp/check_exchange 5x7x51_cyclic_certificate.txt 6
 ```
 
-## A possible route to a tighter upper bound
-
-A color, a pair of rows, and a pair of columns together specify one of $2 \binom{5}{2} \binom{7}{2} = 420$ colored rectangle positions. In a box-free stack, each position can occur in at most one layer. Each layer contains at least 8 monochromatic rectangles, so 52 layers would occupy at least 416 positions. That leaves room for only 4 rectangles above the minimum, so at least 48 of the layers would have exactly 8 rectangles each.
-
-Comparing how the six classes use each row pair, column pair, and color may reveal necessary conditions beyond the total count. This approach has yet to yield a tighter global upper bound.
+The general grid-box problem was studied by [Cooper, Fenner and Purewal, *Monochromatic Boxes in Colored Grids*](https://doi.org/10.1137/080740702).
