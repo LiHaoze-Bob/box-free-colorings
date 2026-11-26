@@ -14,7 +14,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-For a binary grid with three or four rows, we reduce the minimum number of monochromatic boxes at every width and height to the corresponding six-color rectangle problem. We determine the minimum number of monochromatic rectangles in every $c$-color grid of width between $c$ and $2c$. For a fixed cross-section and any number of colors, we express the eventual minimum box count as a quadratic term plus the squared distance to a lattice coset. On a $5\times7$ base we determine the minimum at every positive height except possibly 53. Its difference from the integer convexity bound is zero, or two when $h\equiv105\pmod{210}$. At height 53 the minimum is either four or five. Near the box-free threshold, row-pair projections rule out height 45 at width nine for both five and six rows, while explicit colorings attain height 42.
+For a binary grid with three or four rows, we reduce the minimum number of monochromatic boxes at every width and height to the corresponding six-color rectangle problem. We determine the minimum number of monochromatic rectangles in every $c$-color grid of width between $c$ and $2c$. For a fixed cross-section and any number of colors, we express the eventual minimum box count as a quadratic term plus the squared distance to a lattice coset. On a $5\times7$ base we determine the minimum at every positive height. Its difference from the integer convexity bound is zero, or two when $h\equiv105\pmod{210}$. At the first forced height, 53, the minimum is four and at least 15,907 inequivalent colorings attain it. Near the box-free threshold, row-pair projections rule out height 45 at width nine for both five and six rows, while explicit colorings attain height 42.
 \end{abstract}
 
 \section{From avoidance to multiplicity}
@@ -87,15 +87,14 @@ gives a bounded excess over $C_M(\rho h)$ uniformly in $h$. If $\rho>0$, any sta
 The incidence vector of every stack of minimum layers lies in $hv_1+L$. Conversely for each $0\le s<P$, choose a closest point $x_s\in sv_1+L$ to $s\mu$. It can be written as $\sum_j z_jv_j$ with integral $z_j$ summing to $s$. Adding $k$ to every $z_j$ realizes $x_s+kP\mu$ by $s+kP$ genuine layers once $k$ is sufficiently large. Translation by $P\mu$ sends one coset onto the next, because $P\mu-Pv_1\in L$. It preserves the centered distance, proving the formula. More precisely, the correction measures the distance from $h(v_1-\mu)$ to $L$. Every $t$ in the statement is a period, and any period must preserve the zero distance at $h=0$, forcing $t(v_1-\mu)\in L$.
 \end{proof}
 
-\section{A gap of two on the five-by-seven base}
+\section{A gap of two on the five-by-seven base}\label{s:base57}
 On a $5\times7$ layer there are 420 slots. For row pair $p$ and bit $c$, write $k_{p,c}$ for the number of columns in which both rows have bit $c$. Each column contributes at least four agreements, so $\sum_{p,c}k_{p,c}\ge28$. Since $\binom k2\ge k-1$, each layer contains at least eight rectangles. Equality requires every column to have weight two or three and every $k_{p,c}$ to be one or two. The templates below attain equality.
 
 \begin{theorem}\label{t:57}
-At every positive height except possibly $53$,
+For every positive integer $h$,
 \[
  B_5(7,h)=C_{420}(8h)+2\one_{\{h\equiv105\pmod{210}\}} .
 \]
-At the remaining height, $4\le B_5(7,53)\le5$.
 \end{theorem}
 \begin{proof}[Lower bound]
 Counting slot occupancies gives $B_5(7,h)\ge C_{420}(8h)$ for every $h$. In the exceptional class write $8h=420q$. Here $q\ge2$. One extra rectangle incidence already raises the lower bound by $q$. Otherwise every layer has eight rectangles. For each colored row pair the total number of occupied slots, counted with multiplicity, is $\sum_\ell(k_{p,c}^{\ell}-1)$. The difference between these totals for colors one and zero at $p=ij$ is $A_i+A_j-7h$, where $A_i$ counts all ones in row $i$ of the stack. Since $7h$ is odd, each pair with $A_i,A_j$ of equal parity gives an odd difference. At least four of the ten pairs have equal parity. Subtracting the constant $q$ from every slot occupancy preserves these differences. Hence $\sum_i|x_i-q|\ge4$. Integrality and $\sum_i x_i=420q$ give
@@ -109,16 +108,17 @@ Identify rows with $\F_5$ and columns with $\F_7$. A column is encoded by its fi
 \[
  A=(7,11,12,17,17,22,26),\qquad B=(5,9,10,17,19,22,28).
 \]
-Use all five cyclic row shifts of $A$, then of $B$, indexing the ten templates $0,\ldots,9$ in this order. Each has eight slots, and each of the twenty colored row pairs occurs four times across the ten. For example this can be checked by listing the agreeing columns of each pair and bit. Develop every template by the 21 affine column maps $g(x)=ax+b$ with $a\in\{1,2,4\}$. These maps act regularly on unordered column pairs: exactly one orientation of a nonzero difference is a square in $\F_7$. The resulting 210 layers form a block $U$ which occupies each slot four times. Whenever a stack consists of minimum layers, adjoining $U$ adds four to all 420 slot counts. The excess above $C_{420}(8h)$ is unchanged, since both the counts and the nearest uniform integer counts have total $8h$ before the shift. We therefore need one sharp minimum-layer construction per residue. Height 263 supplies a sharp representative of residue 53.
+Use all five cyclic row shifts of $A$, then of $B$, indexing the ten templates $0,\ldots,9$ in this order. Each has eight slots, and each of the twenty colored row pairs occurs four times across the ten. For example this can be checked by listing the agreeing columns of each pair and bit. Develop every template by the 21 affine column maps $g(x)=ax+b$ with $a\in\{1,2,4\}$. These maps act regularly on unordered column pairs: exactly one orientation of a nonzero difference is a square in $\F_7$. The resulting 210 layers form a block $U$ which occupies each slot four times. Whenever a stack consists of minimum layers, adjoining $U$ adds four to all 420 slot counts. The excess above $C_{420}(8h)$ is unchanged, since both the counts and the nearest uniform integer counts have total $8h$ before the shift. We therefore need one sharp minimum-layer construction per residue. The first 210 heights give a complete set of sharp representatives.
 
 \paragraph{Finite witnesses.}
-Every layer in Table~\ref{t:prefix} has eight rectangles. In a row with endpoints $u,v$ the certificate gives one ordered stack of $v$ layers. Taking its first $h$ layers gives the required coloring for every $u\le h\le v$. The verification reads the seven column masks, enumerates their monochromatic rectangles and updates the 420 slot counts. It uses no optimization software. Each layer in the data file is a word of seven base-32 digits. The verification program reads those words and the five-box certificate and checks every listed prefix.
+Every layer in Table~\ref{t:prefix} has eight rectangles. In a row with endpoints $u,v$ the certificate gives one ordered stack of $v$ layers. Taking its first $h$ layers gives the required coloring for every $u\le h\le v$. The verification reads the seven column masks, enumerates their monochromatic rectangles and updates the 420 slot counts. It uses no optimization software. Each layer in the data file is a word of seven base-32 digits. The verification program reads those words and the two explicit 53-layer colorings and checks every listed prefix.
 
 \begin{table}[ht]\centering
 \caption{Finite constructions. The last column gives the number of boxes at the last height of each row.}\label{t:prefix}
 \begin{tabular}{rrl r}\toprule
 First $u$ & Last $v$ & Source & Boxes at $v$\\\midrule
 1&52&Prefix of the five-box coloring&0\\
+53&53&Four-box coloring from Table~\ref{t:53}&4\\
 54&55&Minimum-layer stack&20\\
 56&104&Minimum-layer stack&412\\
 105&105&Two-box parity gap&422\\
@@ -126,11 +126,11 @@ First $u$ & Last $v$ & Source & Boxes at $v$\\\midrule
 150&157&Minimum-layer stack&1252\\
 158&206&Minimum-layer stack&2424\\
 207&210&Uniform endpoint&2520\\
-263&263&First lift of residue 53&4220\\
+263&263&Independent witness at the lifted height&4220\\
 \bottomrule\end{tabular}
 \end{table}
 
-For example at height 54 the slot multiplicities are 408 ones and twelve twos, so twelve boxes are both necessary and sufficient. At height 263 the multiplicities are 416 fives and four sixes. At height 105 there are two ones, 416 twos and two threes. This witness was found by replacing one layer of a 52-layer packing and adjoining a relabeled five-box stack of height 53. Its box count is $416+2\binom32=422$, attaining the parity bound. At height 53 the certificate in the next section gives five. All entries at heights 1 through 210 are checked individually. This proves the theorem at every claimed height by adding copies of $U$. In particular the least period of the squared-distance correction in Theorem~\ref{t:lattice} is 210: zero distance requires $105\mid h$, even multiples of 105 have a uniform construction, and odd multiples have a parity obstruction.
+For example at height 54 the slot multiplicities are 408 ones and twelve twos, so twelve boxes are both necessary and sufficient. At height 263 the multiplicities are 416 fives and four sixes. At height 105 there are two ones, 416 twos and two threes. This witness was found by replacing one layer of a 52-layer packing and adjoining a relabeled five-box stack of height 53. Its box count is $416+2\binom32=422$, attaining the parity bound. At height 53 Proposition~\ref{p:53} gives four. All entries at heights 1 through 210 are checked individually. Adding copies of $U$ now proves the theorem at every positive height. In particular the least period of the squared-distance correction in Theorem~\ref{t:lattice} is 210: zero distance requires $105\mid h$, even multiples of 105 have a uniform construction, and odd multiples have a parity obstruction.
 
 \paragraph{A construction independent of the finite table.}
 The exceptional residue can also be derived using a single-slot trade. For $0\le s<210$, write $s=10j+r$. Use $j$ full groups of ten developed templates followed by a subset $I_r$ of the next group, ordering maps first by $b=0,\ldots,6$ and then by $a=1,2,4$. The subsets for $r=0,\ldots,5$ are
@@ -187,10 +187,103 @@ They are all two, or there is one one and one three and all others are two. This
 
 The same results give a minimal obstruction in the sense of \cite{cfp}: the grid $5\times7\times53$ forces a box, whereas reducing any one side by one permits a box-free coloring. For the three deletions use $N(4,7)=126$ above, $N(5,6)=75$ from \cite{alm}, and $N(5,7)=52$ from \cite{data}.
 
-At this first forced height, the five-box certificate in \cite{data} has one empty slot, 414 single slots and five double slots. Its first 52 layers occupy 416 different slots. This gives a second extremal coloring in which all 52 layers are minimum, in addition to the perfect 420-slot packing of \cite{data}. A four-box coloring would have all slots occupied and exactly four doubled. Comparing the two color totals on each row pair as in Theorem~\ref{t:57} forces two weight classes of sizes two and three, at weights 185 and 186. Each within-class row pair supports one doubled slot. The supplementary proof in \cite{data} shows that its full symmetry group has order at most two.
+At this first forced height, the five-box certificate in \cite{data} has one empty slot, 414 single slots and five double slots. Its first 52 layers occupy 416 different slots. This gives a second extremal coloring in which all 52 layers are minimum, in addition to the perfect 420-slot packing of \cite{data}. Every four-box coloring occupies all slots and doubles exactly four. Comparing the two color totals on each row pair as in Theorem~\ref{t:57} forces two weight classes of sizes two and three, at weights 185 and 186. Each within-class row pair supports one doubled slot. The supplementary proof in \cite{data} shows that its full symmetry group has order at most two.
+
+\section{The four-box equality case at height 53}
+\label{s:53}
+\begin{proposition}\label{p:53}
+The minimum number of monochromatic boxes in a binary $5\times7\times53$ grid is four.
+\end{proposition}
+\begin{proof}
+The lower bound is $C_{420}(424)=4$. To attain it, use Table~\ref{t:53}. Index rows and columns from zero. Let $g$ act on rows by $(0\,1)(2\,3\,4)$ and on columns by $(0\,3\,4\,1\,2\,5)$, fixing column 6 and preserving colors. Its cube $s=g^3$ is an involution. For each seed in the first group take the seed itself, fixed by $s$. For a seed in the second group take both its $s$-images. For each seed in the last group take all six $g$-images. This produces $5+3\cdot2+7\cdot6=53$ distinct layers.
+
+\begin{table}[ht]\centering
+\caption{The 15 seeds for the four-box coloring. Bit $i$ of each mask is the entry in row $i$ of that column.}\label{t:53}
+\begin{tabular}{c@{\qquad}rrrrrrr}
+\toprule
+Layers per seed & \multicolumn{7}{c}{Column masks, in order}\\
+\midrule
+1&18&17&9&10&28&28&7\\
+1&18&17&11&11&6&5&28\\
+1&5&6&28&28&10&9&19\\
+1&10&9&5&6&19&19&28\\
+1&28&28&18&17&5&6&11\\
+\midrule
+2&7&11&9&14&21&18&28\\
+2&7&22&10&25&18&5&28\\
+2&14&5&19&9&25&18&28\\
+\midrule
+6&28&19&21&6&13&11&24\\
+6&19&24&13&6&26&20&11\\
+6&6&20&9&26&24&13&19\\
+6&10&6&11&22&28&17&5\\
+6&12&21&3&25&10&22&5\\
+6&18&14&20&3&9&5&25\\
+6&14&26&19&20&9&7&5\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For direct verification, loop over the ten row pairs and the 21 column pairs in each expanded layer. Whenever the four bits agree, increment the corresponding colored slot. Every layer contributes eight increments. Exactly 416 slots occur once and the other four twice. Write a doubled slot as (rows, columns, bit). The four are
+\[
+ (23,01,0),\quad(24,23,0),\quad(34,45,0),\quad(01,01,1).
+\]
+With one-based layers and the six images ordered by powers $0,3,1,4,2,5$, the corresponding layer pairs are $(1,2),(1,2),(2,5),(6,7)$. Thus the stack has exactly four boxes. The verifier in \cite{data} also checks all $\binom{53}{2}\binom52\binom72=289380$ choices of eight corners directly.
+\end{proof}
+
+The full stack is invariant under $s$. Its 42-layer substack of six-element orbits admits the larger symmetry $g$. The extra symmetry on these 42 layers reduces the final search while permitting the other eleven layers to supply the prescribed doubles. Deleting one layer never removes all four boxes of this certificate. Deleting layer 2 and either layer 6 or layer 7 does.
+
+\begin{corollary}
+At least $15{,}907$ inequivalent binary colorings attain the minimum at height 53.
+\end{corollary}
+\begin{proof}
+Keep the first eleven layers and the two six-layer orbits with seeds $(6,20,9,26,24,13,19)$ and $(10,6,11,22,28,17,5)$. The remaining 240 colored slots form 40 orbits under $g$. A minimum layer meeting eight distinct such orbits develops into six layers covering all eight orbits once. Relabel the six minimum-layer types in all possible ways and retain one seed per distinct eight-orbit support. This gives 9,007 supports within the 40 positions.
+
+Count partitions of the 40 positions into five supports by fixing a position and choosing the support containing it. On the remaining 32 positions $R$, let $P(S)$ count unordered disjoint pairs of supports with union $S$. Then $\sum_S P(S)P(R\setminus S)/6$ counts four-part partitions of $R$. Each contributes six choices of the first pair. Summing over the first support gives 15,907. This finite calculation is reproduced by \path{search_four_box_core.cpp} in \cite{data}.
+
+Each completion has full symmetry group $\{1,s\}$ by the row-action bound in \cite{data}. Any isomorphism must carry the five $s$-fixed layers to the same set of five. All four doubled slots are also fixed as a set. Color exchange changes the number of red doubles. Among the 32 row and column permutations preserving the four colored doubles, direct substitution in the first five rows of Table~\ref{t:53} leaves just $1$ and $s$ preserving the fixed-layer set. Both preserve every completion setwise. Distinct support partitions yield distinct layer sets, since the fixed action $g$ recovers its orbits on the 30 varying layers. Thus they yield inequivalent colorings.
+\end{proof}
+
+Let a slot specify a row pair, a column pair and a color. A stack of 53 minimum layers attains four boxes exactly when it covers all 420 slots. For sufficiency there are four excess incidences. The difference of the two color totals on $ij$ is $w_i+w_j-371$, with $w_i$ the global row weight. At least four row pairs have $w_i,w_j$ of the same parity. Each requires an excess of its own, so the four excesses are distinct doubles. Write $\delta_{ij}=1$ on the four edges within the weight classes and zero on the six crossing edges.
+
+\begin{proposition}\label{p:triangle}
+Let $n$ layers remain in a partial four-box construction, and let $t_{ij}$ be the outstanding number of rectangles of either color on row pair $ij$. For any three distinct rows,
+\[
+ |t_{ij}-n|+|t_{ik}-n|+|t_{jk}-n|\le 2n .
+\]
+In particular, no 42 layers of the construction have all 20 colored row-pair rectangle counts divisible by seven.
+\end{proposition}
+\begin{proof}
+In a minimum layer write $v_i$ for the weight of row $i$. In each color, rows $i,j$ agree in either one or two columns and supply zero or one rectangle, respectively. Their color difference $v_i+v_j-7$ lies between $-1$ and $1$. If one row has weight at most two, the other four have weight at least four and pair sums at most eight. Their weights must all be four and the first must have weight two. Every row pair would then supply at least one rectangle, exceeding eight. Complementing the layer excludes weights above four.
+
+Record for each row its length-$n$ word indicating which remaining layers give it weight four. On a row pair, equal bits supply exactly one rectangle and unequal bits supply zero or two. Thus $|t_{ij}-n|$ is bounded by the Hamming distance of the words. On three rows every coordinate contributes at most two to the sum of the three distances.
+
+Suppose the proposed 42-layer subset exists, with retained row weights $u_i$. Comparing its color totals gives $u_i+u_j\equiv0\pmod7$ on every pair. Hence all $u_i$ are multiples of seven. The eleven remaining layers give each row between 33 and 44 ones. The target is 185 or 186. This forces $u_i=147$ for every row. The retained color totals on each row pair are equal and each is 14 or 21, since the target is 21 or 22 per color and the remainder supplies at most eleven. The sum $42\cdot8$ forces four row pairs to have retained counts $(21,21)$ and the other six to have $(14,14)$. The former have $t_{ij}\in\{0,1\}$ and the latter have $t_{ij}\in\{14,15\}$. Two of the former must meet on five vertices, giving a triangle with total deviation at least $10+10+3>22$.
+\end{proof}
+
+The obstruction includes six disjoint seven-layer groups obtained by permuting columns within each group, even when their column actions differ. A different construction strategy pairs a layer with its bitwise complement. The next proposition bounds the size of such a substack.
+
+\begin{proposition}\label{p:pairs}
+A four-box stack contains at most 24 disjoint complementary pairs.
+\end{proposition}
+\begin{proof}
+Suppose there are 25. Forget the color of a slot and call the resulting row and column pair a geometry. Each complementary pair uses eight geometries in both colors. Two pairs cannot share one, since the four doubles have distinct row pairs. Of the 210 geometries let $H$ be the ten omitted, with $h_{ij}$ on rows $ij$. In one representative of each pair the total number of rectangles on $ij$ is $21-h_{ij}$. The two length-175 rows therefore have Hamming distance $175-(50+21-h_{ij})=104+h_{ij}$. Every triangle sum of $h_{ij}$ must be even.
+
+For each of the three unpaired layers write its geometry vector using signs $+1,-1$ for the two colors. Their sum has $\ell_1$ norm four and its four signs and row pairs are prescribed by the two weight classes. At each geometry the smaller color multiplicity is zero or one. It is one precisely on $H$, since the target multiplicities are $(1,1)$, $(2,1)$ or $(1,2)$. Thus two of the three layers must coincide in opposite colors at least four times. If this pair has $k$ opposite coincidences, its sum has norm $16-2k$, whence $4\le k\le6$. The third layer must oppose the nonzero partial sum at exactly $10-k$ geometries.
+
+The following finite calculation completes the proof. Fix the first layer to one of the six minimum representatives up to permutations and color exchange. Choose four of its eight slots with colors reversed and enumerate the minimum layers containing them for the second layer. For the third, choose $10-k$ slots opposing the partial sum and enumerate the layers containing them. In both steps fill the required bits first and add columns only while their multiset is contained in one of the 900 minimum column multisets. Retain triples with the prescribed signed sum. There are 18 distinct leaves $H$ after fixing the first layer and six up to relabeling. All six have a triangle with odd $h_{ij}$ sum. The representatives, their violating triangles and the complete enumeration are supplied in \cite{data}, in \path{check_complement_pairs.py}.
+\end{proof}
+
+With 24 complementary pairs the five remaining layers can pass the triangle parity test. The data in \cite{data} give 486 five-layer tails with pairwise inequivalent sets $H$ of 18 geometries already occupied in both colors. Each tail supplies one of each color on $H$ and four additional slots in the prescribed pattern. Its completion by complementary pairs is equivalent to a partition of the remaining 192 geometries into 24 minimum-layer supports. The partitions remain open.
+
+\paragraph{Lifting uncolored supports.}
+Each of the six minimum-layer types is determined up to complementation by its eight rectangle geometries. Trying the $2^8$ color assignments on a representative and extending the specified slots as in Proposition~\ref{p:pairs} gives exactly the two complementary layers in each case. Thus there are 2,192,400 unsigned supports. Fix four proposed doubles. In a partial multiset of supports, an ordinary geometry occurring twice imposes a parity equation between the flip bits of its two layers. Propagating these equations fixes the flips up to one choice per connected component or detects an inconsistent cycle. Reject any geometry over its total capacity. Only components incident with the four exceptional geometries occurring at least twice need their orientations checked, hence at most twelve component bits remain. Enumerating them decides whether the current supports can be oriented within every slot capacity. At 53 layers all capacities sum to the incidence count, so such orientations suffice.
+
+\paragraph{The linear relaxation.}
+Let $A$ be the colored slot incidence matrix of all minimum layers. Normalize the red doubles to the three edges of a triangle and the blue double to its opposite edge. For each of the $21^4$ choices of their column pairs, let $b$ be one on all slots with an extra unit on the four chosen. The exact rational calculation in \cite{data}, \path{verify_fractional_53.py}, gives $Ax=b$ with $1/(4\cdot83520)<x_L<65/83520$ for every layer. It forms $AA^{\mathsf T}$ on the 18 orbit types of ordered slot pairs and verifies a rational correction to the uniform fractional solution. The target also belongs to the integer lattice generated by the columns. The 53-layer row-label totals arise from five complete groups of ten templates followed by $I_3$, up to row relabeling. The single-slot transfers in Section~\ref{s:base57} then give every placement as a signed integer combination. Table~\ref{t:53} realizes one placement by a nonnegative integral solution, up to row and color relabeling.
 
 \section*{Reproducibility}
-All verifiers are in \cite{data} and use the Python standard library. The file \path{check_short_slices.py} constructs colorings for Theorem~\ref{t:color} and counts rectangles and boxes directly. For Theorem~\ref{t:57}, run \path{verify_height_multiplicity.py} on the accompanying certificate files. The scripts \path{verify_six_row_stacks.py} and \path{verify_affine_stacks.py} check the six-row and independent five-row constructions. The mathematical proofs of Theorems~\ref{t:color}, \ref{t:transfer} and \ref{t:lattice}, and the direct eventual construction in Theorem~\ref{t:57}, do not require a search.
+The verifiers for the main theorems use the Python standard library and are available in \cite{data}. The file \path{check_short_slices.py} constructs colorings for Theorem~\ref{t:color} and counts rectangles and boxes directly. For Theorem~\ref{t:57}, run \path{verify_height_multiplicity.py} on the accompanying certificate files. The independent \path{verify_four_box_53.py} expands Table~\ref{t:53} and checks all eight corners of every possible box. The scripts \path{verify_six_row_stacks.py} and \path{verify_affine_stacks.py} check the six-row and independent five-row constructions. The mathematical proofs of Theorems~\ref{t:color}, \ref{t:transfer} and \ref{t:lattice}, and the direct eventual construction in Theorem~\ref{t:57}, do not require a search.
 
 \begin{thebibliography}{9}
 \bibitem{alm} J.~F. Alm and A. Miller, \emph{Constructive and computational methods for extremal and near-extremal box colorings}, 2026. \href{https://arxiv.org/abs/2611.19635}{arXiv:2611.19635v1}.

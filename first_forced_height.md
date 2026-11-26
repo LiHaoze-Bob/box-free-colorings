@@ -1,7 +1,10 @@
 # The first forced height on the five-by-seven grid
 
-Let $B(h)$ be the minimum number of monochromatic boxes on the binary $5\times7\times h$ grid. At height 52 a box-free coloring exists. At height 53 every stack has at least four boxes: every layer occupies at least eight of the 420 colored rectangle slots, so the total number of incidences is at least 424. Summing $\binom{x}{2}$ over slot multiplicities $x$ counts boxes. The [53-layer certificate](5x7x53_five_box_certificate.txt) has one empty slot, 414 single slots and five double slots. Its first 52 layers are box-free and each contains just eight rectangles. Hence $4\le B(53)\le5$. The [independent counter](verify_first_forced.py) verifies both statements.
+**The exact minimum is $B(53)=4$.** A minimum layer has eight monochromatic rectangles, so 53 layers contribute at least 424 incidences among 420 colored rectangle slots. A slot of multiplicity $m$ gives $\binom m2\ge m-1$ boxes. Thus four boxes are necessary. The [explicit 53 layers](5x7x53_four_box_certificate.txt) occupy 416 slots once and four slots twice. The [compact construction](four_box_construction.md) uses fifteen seeds, and the [independent verifier](verify_four_box_53.py) enumerates every possible box by its eight corners.
 
+Keeping 23 layers fixed, the remaining 30 can be completed in at least 15,907 inequivalent ways. The [partition count and inequivalence argument](four_box_construction.md#at-least-15907-inequivalent-optimal-colorings) give a reproducible lower bound on the number of optima.
+
+The earlier [five-box coloring](5x7x53_five_box_certificate.txt) supplies a box-free 52-layer prefix made entirely of minimum layers. Its [prefix checker](verify_first_forced.py) and the new four-box witness together certify all heights from 1 through 53.
 
 ## Necessary structure at four boxes
 
@@ -27,4 +30,17 @@ It remains to exclude elements of order three in $S_2\times S_3$. Such a row act
 
 Finally suppose a nonidentity involution interchanges rows $i,j$. In each fixed column of a fixed layer these two rows agree. At most four such agreements can occur, two per color, so the column action has at least two transpositions. If it has exactly two, there are three fixed columns. For either transposed column pair and either color, the slot consisting of rows $i,j$ on this column pair is fixed. A fixed layer using it would make the two rows agree on at least five columns, impossible. Thus each of these four slots must be supplied by a pair of nonfixed layers and is doubled. The row pair $ij$ supports at most one doubled slot. It follows that each nonidentity involution transposes three column pairs, hence induces an odd column permutation. Since the group embeds in $C_2\times C_2$, all nonidentity elements are involutions. Two distinct nonidentity elements would have a nonidentity product with even column sign, a contradiction.
 
-The restriction applies to hypothetical four-box minimizers. The existence of such a stack remains open.
+The four-box witness realizes the nontrivial case. Its full automorphism group consequently has order exactly two. Its 42-layer substack has an additional symmetry of order six. The four boxes use the layer pairs $(1,2),(1,2),(2,5),(6,7)$ in the certificate. No deletion of one layer makes it box-free. Its largest box-free substacks have height 51 and arise by deleting layer 2 and either layer 6 or layer 7.
+
+## Partial stacks and the incidence equations
+
+A search over 53 minimum layers may ask only whether every slot is covered. The four surplus incidences then lie on four different row pairs by the parity argument above. An uncolored minimum-layer support determines its layer up to color reversal. For prescribed doubles, graph parity and at most twelve remaining flip bits decide exact color feasibility of any partial selection. [Orientation algorithm](residual_row_cuts.md#searching-first-for-uncolored-rectangles)
+
+Two obstructions apply even to stacks with trivial symmetry.
+
+* A partial stack with $n$ layers left has a triangle inequality on the outstanding rectangle counts. It rules out any 42 retained layers whose 20 colored row-pair totals are all multiples of seven. [Row cuts and proof](residual_row_cuts.md)
+* There can be at most 24 disjoint complementary layer pairs. A 25-pair core would leave one of six geometric patterns to three layers, and all six violate row-distance parity. [Proof and six patterns](complement_pairs_53.md) · [Exhaustive verifier](check_complement_pairs.py) · [486 exact-cover instances with 24 pairs](complement_pairs_53.md#the-next-case-gives-explicit-exact-cover-instances)
+
+Each of the ten possible minority row pairs occurs in exactly 37 of the 371 column words, with one extra occurrence for the unique two-row weight class. The same reconstruction yields residual-inventory and single-column tests. If a full involution is imposed, a single row transposition forces exactly five fixed layers and reduces the remaining partition to 198 two-element slot orbits. [Minority counts and column projections](minority_inventory.md) · [Involution cases and enumeration](four_box_involutions.md)
+
+For every placement of the four doubles, the target has a strictly positive rational solution on all 4,384,800 minimum layers and a signed integer solution. The four-box certificate realizes one of these placements with nonnegative integral coefficients. [Incidence lattice and fractional certificate](fractional_53.md)

@@ -10,11 +10,12 @@ from itertools import combinations
 from math import comb
 from pathlib import Path
 
+from verify_first_forced import read_layers
+
 ROOT = Path(__file__).resolve().parent
 DIGITS = "0123456789abcdefghijklmnopqrstuv"
 A = (7, 11, 12, 17, 17, 22, 26)
 B = (5, 9, 10, 17, 19, 22, 28)
-UNSETTLED = {53: 1}  # The five-box witness is one above the lower bound.
 
 
 def check(condition, message):
@@ -77,11 +78,13 @@ def check_double_switch():
 
 
 def witnesses():
-    path = ROOT / "5x7x53_five_box_certificate.txt"
-    rows = [block.splitlines()[1:] for block in path.read_text().strip().split("\n\n")]
-    prefix = [tuple(sum(int(bit) << i for i, bit in enumerate(column))
-                    for column in zip(*layer)) for layer in rows]
-    yield 1, 53, prefix
+    for first, last, filename in (
+        (1, 52, "5x7x53_five_box_certificate.txt"),
+        (53, 53, "5x7x53_four_box_certificate.txt"),
+    ):
+        stack = [tuple(sum(int(bit) << i for i, bit in enumerate(column))
+                       for column in zip(*layer)) for layer in read_layers(filename)[:last]]
+        yield first, last, stack
 
     lines = (ROOT / "5x7_multiplicity_certificates.txt").read_text().splitlines()
     check(len(lines) % 2 == 0, "Incomplete certificate record")
@@ -111,13 +114,10 @@ def main():
             q, e = divmod(8*h, 420)
             boxes = sum(comb(n, 2) for n in counts)
             lower = 420*comb(q, 2) + e*q + 2*(h % 210 == 105)
-            check(boxes == lower + UNSETTLED.get(h, 0), f"Incorrect count at {h}")
+            check(boxes == lower, f"Incorrect count at {h}")
             check(h not in checked, f"Duplicate height {h}")
             checked[h] = boxes
     check(set(checked) == set(range(1, 211)) | {263}, "Missing height")
-    # Each residue has a sharp minimum-layer witness, and can now be lifted.
-    sharp = {h % 210 for h in checked if h not in UNSETTLED}
-    check(len(sharp) == 210, "A residue is missing a sharp witness")
     print("Verified the uniform 210-layer lift and all 210 residue classes.")
     print("Direct box counts:", {h: checked[h] for h in (52, 53, 54, 105, 263)})
 

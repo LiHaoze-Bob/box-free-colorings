@@ -9,8 +9,8 @@
 The [companion paper (PDF)](paper/multiplicities.pdf) gives proofs and constructions for the minimum number of monochromatic boxes. [LaTeX source](paper/multiplicities.tex)
 
 * In a binary grid with three or four rows, every minimum box count reduces to a six-color rectangle minimum. An equitable matching construction determines the latter at all heights for a general palette of $c$ colors and any width from $c$ through $2c$. Thus $N(3,b)=N(4,b)$ for every width. For widths 7 through 12 their common values are 126, 84, 72, 67, 66 and 66. [Proof, construction and prior results](short_slices.md)
-* On the $5\times7$ base, write $8h=420q+e$ with $0\le e<420$. For every positive height except possibly 53, the minimum is $420\binom q2+eq$, plus exactly two boxes when $h\equiv105\pmod{210}$. At the first exceptional residue, $h=105$, the minimum is exactly 422. A uniform 210-layer block extends the finite construction indefinitely. For an arbitrary fixed base and palette the eventual correction to a quadratic is a periodic squared lattice distance. [Finite certificate](verify_height_multiplicity.py)
-* At the first forced height on the original base, $4\le B(53)\le5$. Four boxes would force a prescribed triangle and edge of doubled row pairs and an automorphism group of order at most two. [Proof](first_forced_height.md) · [Five-box witness](verify_first_forced.py)
+* On the $5\times7$ base, write $8h=420q+e$ with $0\le e<420$. For every positive height, the minimum is $420\binom q2+eq$, plus exactly two boxes when $h\equiv105\pmod{210}$. At the first exceptional residue, $h=105$, the minimum is exactly 422. A uniform 210-layer block extends the finite construction indefinitely. For an arbitrary fixed base and palette the eventual correction to a quadratic is a periodic squared lattice distance. [Finite certificate](verify_height_multiplicity.py)
+* **Exactly four boxes are necessary and sufficient at height 53.** Fifteen seeds generate five fixed layers, three pairs and seven six-layer orbits. Of the 420 colored rectangle positions, 416 occur once and four occur twice. The whole coloring has an automorphism of order two. Fixing 23 layers gives at least 15,907 inequivalent optimal colorings. [Four-box certificate](5x7x53_four_box_certificate.txt) · [Construction](four_box_construction.md) · [Independent verification](verify_four_box_53.py) · [Structural bounds and pruning](first_forced_height.md)
 * At widths nine and ten, colored row-pair projections exclude the nominal packing height of 45. For both five and six rows the certified ranges are $42\le N(a,9)\le44$ and $40\le N(a,10)\le44$. At height 45 and width ten, at least seven and fourteen boxes are forced for five and six rows respectively. [Projection inequalities](projection_bounds.md) · [Six-row constructions and the Petersen graph](six_row_packings.md)
 
 Run the following checks from the repository root with Python 3.9 or later.
@@ -20,6 +20,7 @@ python3 check_short_slices.py
 python3 verify_height_multiplicity.py
 python3 verify_six_row_stacks.py
 python3 verify_affine_stacks.py
+python3 verify_four_box_53.py
 python3 verify_first_forced.py
 ```
 

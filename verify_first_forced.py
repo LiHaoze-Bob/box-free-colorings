@@ -5,8 +5,8 @@ from itertools import combinations
 from pathlib import Path
 
 
-def read_layers():
-    path = Path(__file__).with_name("5x7x53_five_box_certificate.txt")
+def read_layers(filename="5x7x53_five_box_certificate.txt"):
+    path = Path(__file__).with_name(filename)
     blocks = path.read_text().strip().split("\n\n")
     if len(blocks) != 53:
         raise ValueError("Expected 53 layers")
