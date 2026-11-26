@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent
 DIGITS = "0123456789abcdefghijklmnopqrstuv"
 A = (7, 11, 12, 17, 17, 22, 26)
 B = (5, 9, 10, 17, 19, 22, 28)
-UNSETTLED = {53: 1, 105: 1}  # upper bounds exceed the proved lower bound by one
+UNSETTLED = {53: 1}  # The five-box witness is one above the lower bound.
 
 
 def check(condition, message):
@@ -46,6 +46,36 @@ def uniform_block():
                     yield tuple(layer)
 
 
+def check_double_switch():
+    template = (3, 5, 10, 13, 19, 22, 24)
+    def switch(layer, i, j):
+        words = list(layer)
+        words[i], words[j] = words[j], words[i]
+        return tuple(words)
+
+    labels = Counter()
+    switches = Counter()
+    for mapping, flip in [((4, 3, 2, 1, 0), 0), ((4, 3, 1, 0, 2), 31)]:
+        for t in range(5):
+            layer = tuple(flip ^ sum(((word >> i) & 1) << ((r+t) % 5)
+                                     for i, r in enumerate(mapping)) for word in template)
+            base = set(slots(layer))
+            labels.update(s // 21 for s in base)
+            left = switch(layer, 2, 6)
+            right = switch(layer, 1, 3)
+            first = base ^ set(slots(left))
+            second = base ^ set(slots(right))
+            for diff in (first, second):
+                check(len(diff) == 2 and len({s // 21 for s in diff}) == 1,
+                      "A switch must move one slot within one colored row pair")
+                switches[next(iter(diff)) // 21] += 1
+            both = set(slots(switch(left, 1, 3)))
+            check(not first & second and both == base ^ first ^ second,
+                  "The two switches must be independently selectable")
+    check(labels == {p: 4 for p in range(20)} and switches == {p: 1 for p in range(20)},
+          "The switched templates do not cover every label equally")
+
+
 def witnesses():
     path = ROOT / "5x7x53_five_box_certificate.txt"
     rows = [block.splitlines()[1:] for block in path.read_text().strip().split("\n\n")]
@@ -64,6 +94,7 @@ def witnesses():
 
 
 def main():
+    check_double_switch()
     block = list(uniform_block())
     uniform = Counter(slot for layer in block for slot in slots(layer))
     check(len(block) == 210 and uniform == {s: 4 for s in range(420)},
@@ -83,12 +114,12 @@ def main():
             check(boxes == lower + UNSETTLED.get(h, 0), f"Incorrect count at {h}")
             check(h not in checked, f"Duplicate height {h}")
             checked[h] = boxes
-    check(set(checked) == set(range(1, 211)) | {263, 315}, "Missing height")
+    check(set(checked) == set(range(1, 211)) | {263}, "Missing height")
     # Each residue has a sharp minimum-layer witness, and can now be lifted.
     sharp = {h % 210 for h in checked if h not in UNSETTLED}
     check(len(sharp) == 210, "A residue is missing a sharp witness")
     print("Verified the uniform 210-layer lift and all 210 residue classes.")
-    print("Direct box counts:", {h: checked[h] for h in (52, 53, 54, 105, 263, 315)})
+    print("Direct box counts:", {h: checked[h] for h in (52, 53, 54, 105, 263)})
 
 
 if __name__ == "__main__":

@@ -1,0 +1,202 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm,booktabs,geometry,hyperref}
+\geometry{margin=1in}
+\hypersetup{hidelinks,pdftitle={Exact monochromatic box counts in grids of fixed cross-section}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\F}{\mathbb F}
+\title{Exact monochromatic box counts in grids of fixed cross-section}
+\author{}\date{November 26, 2026}
+\begin{document}
+\maketitle
+\begin{abstract}
+For a binary grid with three or four rows, we reduce the minimum number of monochromatic boxes at every width and height to the corresponding six-color rectangle problem. We determine the minimum number of monochromatic rectangles in every $c$-color grid of width between $c$ and $2c$. For a fixed cross-section and any number of colors, we express the eventual minimum box count as a quadratic term plus the squared distance to a lattice coset. On a $5\times7$ base we determine the minimum at every positive height except possibly 53. Its difference from the integer convexity bound is zero, or two when $h\equiv105\pmod{210}$. At height 53 the minimum is either four or five. Near the box-free threshold, row-pair projections rule out height 45 at width nine for both five and six rows, while explicit colorings attain height 42.
+\end{abstract}
+
+\section{From avoidance to multiplicity}
+An axis-parallel box in $[a]\times[b]\times[h]$ uses two distinct indices in each coordinate. Write $B_a(b,h)$ for the minimum number of monochromatic boxes in a binary coloring, and $N(a,b)$ for the largest height with minimum zero, possibly infinite. In two dimensions write $R_c(b,h)$ for the least number of monochromatic rectangles in a $c$-coloring of $[b]\times[h]$. Here a coloring may use fewer than $c$ colors.
+
+The grid obstruction framework goes back to Cooper, Fenner and Purewal \cite{cfp}. Alm and Miller \cite[\S8]{alm} ask when the layer-counting bound can be attained and how to use the internal rectangle structure of layers. The construction $N(5,7)=52$ settles a specific threshold \cite{data}. A different question begins immediately above it: how many boxes must occur after additional layers are included? Two features distinguish the cases studied here. Three-bit column words can encode a two-dimensional multicolor problem exactly. On $5\times7$, the incidence vectors of minimum layers admit single-coordinate transfers within each colored row pair.
+
+For $M\ge1$, define $C_M(n)$ by writing $n=Mq+e$, $0\le e<M$, and setting
+\[
+ C_M(n)=M\binom q2+eq .
+\]
+This is the minimum of $\sum_{i=1}^M\binom{x_i}{2}$ over nonnegative integers summing to $n$. Moving a unit from a larger entry to one at least two smaller strictly decreases the sum.
+
+\section{An exact rectangle formula and a transfer to boxes}
+\begin{theorem}\label{t:color}
+For all integers $c\ge1$, $c\le b\le2c$, $b\ge2$, and $h\ge1$,
+\[
+ R_c(b,h)= C_{c\binom b2}\bigl((b-c)h\bigr).
+\]
+\end{theorem}
+\begin{proof}
+Put $r=b-c$, $E=\binom b2$, $M=cE$. Each column contains at least $r$ equal-color row pairs, since $\binom k2\ge k-1$ for each color-class size $k$. Count column occurrences for each row pair and each color. Their sum is at least $rh$, and summing their binomial coefficients counts every rectangle once. This proves the lower bound. When $r=0$ inject the rows into the colors in every column.
+
+For $r>0$, we first produce $h$ matchings of size $r$ in $K_b$ in which the multiplicities of its $E$ edges differ by at most one. Put $\nu=\lfloor b/2\rfloor$. Partition $K_b$ into matchings of size $\nu$. For even $b$, use vertices $\{\infty\}\cup\Z_{b-1}$ and the matching at $x$ consisting of $\{\infty,x\}$ and $\{x-i,x+i\}$ for $1\le i\le (b-2)/2$. For odd $b$, delete one vertex from this construction on $b+1$ vertices. List the edges in matching order and repeat the list cyclically. Take the first $rh$ edges, preserving the boundaries of the matchings. This uses $\lceil rh/\nu\rceil\le h$ matchings because $r\le\nu$. Add empty matchings up to $h$. If two sizes differ by at least two, their two-colored union contains an alternating path with one extra edge of the larger matching. Exchange the two colors on that path. This preserves all edge multiplicities and decreases the sum of squared matching sizes. The terminal sizes differ by at most one and have integer average $r$, as required.
+
+Form the incidence graph between the $h$ matchings and the $E$ edges of $K_b$. Split each right vertex of degree $m$ into $\lfloor m/c\rfloor$ vertices of degree $c$ and, when needed, one vertex of degree $m\bmod c$. The maximum degree on both sides is at most $c$. A bipartite graph of maximum degree $c$ has a proper $c$-edge-coloring: pad to a $c$-regular bipartite multigraph with equal parts and successively remove perfect matchings using Hall's theorem. Thus the $r$ pairs in each matching receive distinct colors. Each original right vertex sees each color either $\lfloor m/c\rfloor$ or $\lceil m/c\rceil$ times. The right degrees before splitting are consecutive integers, so across all $M$ colored pairs these counts differ by at most one.
+
+Make each matching a grid column, giving each of its pairs its assigned color. Its $b-2r=c-r$ unmatched vertices receive the remaining colors bijectively. The resulting coloring realizes precisely the prescribed equal pairs.
+\end{proof}
+
+For $0<r=b-c\le c$, the rectangle-free threshold is $\lfloor c\binom b2/r\rfloor$. Fenner, Gasarch, Glover and Purewal give this upper bound and a construction of height $\lfloor c/r\rfloor\binom b2$ \cite[Cor.~2.12 and Thm.~3.6]{fggp}. The expressions agree when $r\mid c$. O'Neill and collaborators have announced additional exact thresholds in several families and work on rectangle multiplicity \cite{oneill}. Theorem~\ref{t:color} gives one construction throughout this interval, including every height above the threshold.
+
+\begin{theorem}\label{t:transfer}
+For every positive $b,h$, one has
+\[
+ B_3(b,h)=R_6(b,h),\qquad B_4(b,h)=2R_6(b,h).
+\]
+\end{theorem}
+\begin{proof}
+At a fixed $(j,\ell)$ in a three-row stack, flip one bit of a constant three-bit word. This deletes two equal pairs in the old color, preserving the third and introducing no new equal pair. Repeating, an optimum may use only the six nonconstant words. Each has exactly one equal pair, and its indices and bit identify the word. The boxes correspond bijectively to the monochromatic rectangles on the resulting six symbols. Conversely every six-symbol coloring yields such a stack.
+
+Append the minority bit to each of the six words. Each four-bit word has two equal pairs, in opposite colors on complementary pairs of rows, and either colored pair determines the word. Each monochromatic rectangle in the six-symbol array gives exactly two boxes in the extended array. Conversely delete each row in turn from any four-row stack. Each box survives two of the four deletions. The total count over the deletions is therefore twice the original count and at least $4B_3(b,h)$.
+\end{proof}
+In particular $N(3,b)=N(4,b)$ even outside the range of Theorem~\ref{t:color}. Their common value is infinite for $b\le6$. The upper bounds of Cooper, Fenner and Purewal \cite[Table~2]{cfp} are attained throughout: for widths 7 through 12 it equals $126,84,72,67,66,66$, respectively. For example a $3\times10\times68$ stack must contain two boxes, and a four-row stack of the same width and height must contain four. Both bounds are attained.
+
+\section{An eventual lattice formula for any fixed base}
+Fix $a,b\ge2$ and a palette of $c\ge1$ colors. A \emph{slot} specifies an unordered row pair, an unordered column pair, and a color. There are $M=c\binom a2\binom b2$ slots. Each layer has a zero-one incidence vector recording its occupied slots. If the stack has total vector $x$, its box count is $\sum_i\binom{x_i}{2}$. Let $\rho$ be the minimum number of occupied slots in a single layer. Write $v_1,\ldots,v_P$ for the incidence vectors of all minimum layers, one per layer, allowing repetitions of a vector. Define
+\[
+ L=\sum_{j=2}^P\Z(v_j-v_1),\qquad \mu=\frac{\rho}{M}\one .
+\]
+All distances below are Euclidean in $\mathbb R^M$.
+
+\begin{theorem}\label{t:lattice}
+For every sufficiently large $h$ the minimum number of monochromatic boxes is
+\[
+ \frac{(\rho h)^2}{2M}-\frac{\rho h}{2}
+ +\frac12\operatorname{dist}\bigl(h\mu,\,hv_1+L\bigr)^2 .
+\]
+The least period of the squared-distance term is the least positive $t$ with $t(v_1-\mu)\in L$, which divides $P$. In particular the minimum is eventually a quadratic quasipolynomial when $\rho>0$.
+\end{theorem}
+\begin{proof}
+Row, column and color permutations act transitively on slots and permute the minimum layers. Consequently $\sum_jv_j=P\mu$ is an integral constant vector. For a fixed residue $h=s\pmod P$, append copies of this uniform block to any stack of $s$ minimum layers. Its centered vector $x-h\mu$ is fixed. The identity
+\[
+ \sum_i \binom{x_i}{2}
+ =\frac{(\rho h)^2}{2M}-\frac{\rho h}{2}
+       +\frac12\lVert x-h\mu\rVert^2 \qquad(\textstyle\sum_i x_i=\rho h)
+\]
+gives a bounded excess over $C_M(\rho h)$ uniformly in $h$. If $\rho>0$, any stack using a nonminimum layer costs at least $C_M(\rho h+1)=C_M(\rho h)+\lfloor\rho h/M\rfloor$, which eventually exceeds that excess. If $\rho=0$, repeating an empty-incidence layer solves the problem directly.
+
+The incidence vector of every stack of minimum layers lies in $hv_1+L$. Conversely for each $0\le s<P$, choose a closest point $x_s\in sv_1+L$ to $s\mu$. It can be written as $\sum_j z_jv_j$ with integral $z_j$ summing to $s$. Adding $k$ to every $z_j$ realizes $x_s+kP\mu$ by $s+kP$ genuine layers once $k$ is sufficiently large. Translation by $P\mu$ sends one coset onto the next, because $P\mu-Pv_1\in L$. It preserves the centered distance, proving the formula. More precisely, the correction measures the distance from $h(v_1-\mu)$ to $L$. Every $t$ in the statement is a period, and any period must preserve the zero distance at $h=0$, forcing $t(v_1-\mu)\in L$.
+\end{proof}
+
+\section{A gap of two on the five-by-seven base}
+On a $5\times7$ layer there are 420 slots. For row pair $p$ and bit $c$, write $k_{p,c}$ for the number of columns in which both rows have bit $c$. Each column contributes at least four agreements, so $\sum_{p,c}k_{p,c}\ge28$. Since $\binom k2\ge k-1$, each layer contains at least eight rectangles. Equality requires every column to have weight two or three and every $k_{p,c}$ to be one or two. The templates below attain equality.
+
+\begin{theorem}\label{t:57}
+At every positive height except possibly $53$,
+\[
+ B_5(7,h)=C_{420}(8h)+2\one_{\{h\equiv105\pmod{210}\}} .
+\]
+At the remaining height, $4\le B_5(7,53)\le5$.
+\end{theorem}
+\begin{proof}[Lower bound]
+Counting slot occupancies gives $B_5(7,h)\ge C_{420}(8h)$ for every $h$. In the exceptional class write $8h=420q$. Here $q\ge2$. One extra rectangle incidence already raises the lower bound by $q$. Otherwise every layer has eight rectangles. For each colored row pair the total number of occupied slots, counted with multiplicity, is $\sum_\ell(k_{p,c}^{\ell}-1)$. The difference between these totals for colors one and zero at $p=ij$ is $A_i+A_j-7h$, where $A_i$ counts all ones in row $i$ of the stack. Since $7h$ is odd, each pair with $A_i,A_j$ of equal parity gives an odd difference. At least four of the ten pairs have equal parity. Subtracting the constant $q$ from every slot occupancy preserves these differences. Hence $\sum_i|x_i-q|\ge4$. Integrality and $\sum_i x_i=420q$ give
+\[
+ \sum_i\binom{x_i}{2}-C_{420}(8h)=\tfrac12\sum_i(x_i-q)^2\ge2 .
+\]
+\end{proof}
+
+\paragraph{Ten templates.}
+Identify rows with $\F_5$ and columns with $\F_7$. A column is encoded by its five-bit integer, with row zero in the low bit. Start with
+\[
+ A=(7,11,12,17,17,22,26),\qquad B=(5,9,10,17,19,22,28).
+\]
+Use all five cyclic row shifts of $A$, then of $B$, indexing the ten templates $0,\ldots,9$ in this order. Each has eight slots, and each of the twenty colored row pairs occurs four times across the ten. For example this can be checked by listing the agreeing columns of each pair and bit. Develop every template by the 21 affine column maps $g(x)=ax+b$ with $a\in\{1,2,4\}$. These maps act regularly on unordered column pairs: exactly one orientation of a nonzero difference is a square in $\F_7$. The resulting 210 layers form a block $U$ which occupies each slot four times. Whenever a stack consists of minimum layers, adjoining $U$ adds four to all 420 slot counts. The excess above $C_{420}(8h)$ is unchanged, since both the counts and the nearest uniform integer counts have total $8h$ before the shift. We therefore need one sharp minimum-layer construction per residue. Height 263 supplies a sharp representative of residue 53.
+
+\paragraph{Finite witnesses.}
+Every layer in Table~\ref{t:prefix} has eight rectangles. In a row with endpoints $u,v$ the certificate gives one ordered stack of $v$ layers. Taking its first $h$ layers gives the required coloring for every $u\le h\le v$. The verification reads the seven column masks, enumerates their monochromatic rectangles and updates the 420 slot counts. It uses no optimization software. Each layer in the data file is a word of seven base-32 digits. The verification program reads those words and the five-box certificate and checks every listed prefix.
+
+\begin{table}[ht]\centering
+\caption{Finite constructions. The last column gives the number of boxes at the last height of each row.}\label{t:prefix}
+\begin{tabular}{rrl r}\toprule
+First $u$ & Last $v$ & Source & Boxes at $v$\\\midrule
+1&52&Prefix of the five-box coloring&0\\
+54&55&Minimum-layer stack&20\\
+56&104&Minimum-layer stack&412\\
+105&105&Two-box parity gap&422\\
+106&149&Minimum-layer stack&1124\\
+150&157&Minimum-layer stack&1252\\
+158&206&Minimum-layer stack&2424\\
+207&210&Uniform endpoint&2520\\
+263&263&First lift of residue 53&4220\\
+\bottomrule\end{tabular}
+\end{table}
+
+For example at height 54 the slot multiplicities are 408 ones and twelve twos, so twelve boxes are both necessary and sufficient. At height 263 the multiplicities are 416 fives and four sixes. At height 105 there are two ones, 416 twos and two threes. This witness was found by replacing one layer of a 52-layer packing and adjoining a relabeled five-box stack of height 53. Its box count is $416+2\binom32=422$, attaining the parity bound. At height 53 the certificate in the next section gives five. All entries at heights 1 through 210 are checked individually. This proves the theorem at every claimed height by adding copies of $U$. In particular the least period of the squared-distance correction in Theorem~\ref{t:lattice} is 210: zero distance requires $105\mid h$, even multiples of 105 have a uniform construction, and odd multiples have a parity obstruction.
+
+\paragraph{A construction independent of the finite table.}
+The exceptional residue can also be derived using a single-slot trade. For $0\le s<210$, write $s=10j+r$. Use $j$ full groups of ten developed templates followed by a subset $I_r$ of the next group, ordering maps first by $b=0,\ldots,6$ and then by $a=1,2,4$. The subsets for $r=0,\ldots,5$ are
+\[
+ \varnothing,\ \{0\},\ \{0,8\},\ \{0,3,6\},\ \{0,1,3,9\},\ \{0,1,3,6,9\}.
+\]
+For $6\le r\le9$ take the complement of $I_{10-r}$ in the ten indices. Write $n_p$ for the total occurrences of each colored row pair $p$ in this prefix. If the 21 positions at each $p$ are balanced separately, the cost is $\sum_p C_{21}(n_p)$. To see its value, note that the counts in $I_r$ are the two nearest integers to $8r/20$ (or the common integer when they coincide), except at $r=5$, where they are two ones, sixteen twos, and two threes. Each full group adds four everywhere. For $r\ne5$, $C_{21}$ is linear between successive multiples of 21 and the two nearest integer totals lie in the same closed interval of linearity. For $r=5$, the three totals straddle a change in slope only if $4j+2$ is divisible by 21, which in this range is precisely $s=105$. There the two low and two high totals cost two extra boxes. Thus
+\[
+ \sum_p C_{21}(n_p)= C_{420}(8s)+2\one_{\{s=105\}}.       \tag{1}
+\]
+
+\paragraph{Realizing the balanced occupancies.}
+In $B$, transposing columns 5 and 6 moves exactly one slot. For row pair $\{1,4\}$ in bit one it replaces the column pair $\{4,5\}$ by $\{4,6\}$. Row and column relabeling and color reversal give a unit transfer between any two column pairs with a common endpoint, in any prescribed colored row pair. A relabeled copy of $U$ containing the required source template is still uniform before its switch. Two such transfers suffice for disjoint column pairs, via an intermediate pair. Consequently, spending at most two copies of $U$ per occurrence in the prefix realizes any prescribed balancing within each colored row pair, with a common uniform offset. For each residue at most $2\cdot8\cdot209=3344$ blocks suffice, and unused blocks can be taken unmodified. This proves the eventual formula by a direct construction already at $h\ge702240$.
+
+The height-263 construction uses two independently selectable transfers in the same layer. In $D=(3,5,10,13,19,22,24)$, interchanging columns 2 and 6 moves only the zero-colored slot on row pair $\{2,4\}$, from column pair $\{0,2\}$ to $\{0,6\}$. Interchanging columns 1 and 3 similarly moves only the zero-colored slot on row pair $\{3,4\}$ from $\{0,1\}$ to $\{0,3\}$. Performing both swaps gives both changes. Take the five row rotations after the row relabeling $(4,3,2,1,0)$, and five after $(4,3,1,0,2)$ with color reversal, writing each permutation by its list of images. The twenty designated switches cover the twenty colored row pairs once each. Affine development on the columns then gives a uniform 210-layer block with independently selectable switches on every colored row pair. In the search these switches were used to balance the residual column-pair counts. Their concrete outcomes are already included in the finite witnesses.
+
+\section{Projection bounds at the box-free threshold}
+For a fixed row pair $p$ and color $c$, regard the agreeing positions as a bipartite graph between columns and layers. Its four-cycles are exactly the boxes on that colored row pair. Write $z(b,h)$ for the maximum size of a four-cycle-free bipartite graph with part sizes $b,h$. Put
+\[
+ d=\binom{\lfloor a/2\rfloor}{2}+\binom{\lceil a/2\rceil}{2},
+ \qquad T=2\binom a2 .
+\]
+\begin{proposition}\label{p:projection}
+A binary box-free $a\times b\times h$ stack requires
+\[
+ d\bigl(bh+\one_{\{bh\text{ odd}\}}\bigr)\le Tz(b,h).
+\]
+For $t\ge1$, setting $E=\binom b2$ and $D=\binom{t+1}{2}$, one may substitute $\lfloor(E+hD)/t\rfloor$ for $z(b,h)$ on the right.
+\end{proposition}
+\begin{proof}
+Let $m_{p,c}$ be the graph sizes. Every column word contributes at least $d$ equal pairs, so $\sum_{p,c}m_{p,c}\ge dbh$. For $p=ij$ one has $m_{p,1}-m_{p,0}=A_i+A_j-bh$, where $A_i$ is the total number of ones in row $i$. Both graph sizes are at most $z(b,h)$, so their sum is at most $2z(b,h)-|A_i+A_j-bh|$. If $bh$ is odd, at least $d$ row pairs have row weights of the same parity, contributing at least one apiece. For the last assertion write $k_\ell$ for the degrees on the layer side. A column pair can have at most one common neighbor, whence $t\sum k_\ell-hD\le\sum\binom{k_\ell}{2}\le E$.
+\end{proof}
+
+At $(b,h)=(9,45)$ use $t=1$ to get $z\le81$. For five rows $d=4,T=20$, and $4\cdot406>20\cdot81$. Deleting rows or columns now gives $N(a,b)\le44$ for $a=5,6$ and $b=9,10$. In each case the ordinary layer-counting bound is 45: the layer minima are respectively $16,20$ at five rows and $24,30$ at six rows, by the first-moment bound and the constructions below and in \cite{data}. These give explicit strict cases of the layer bound in \cite[Problem 3]{alm}.
+
+\paragraph{Constructions.}
+Index ten column words by the two-subsets of $\{0,1,2,3,4\}$ in lexicographic order, numbered $0,\ldots,9$. Their six-bit masks, low bit first, are
+\[
+ (7,26,44,49,41,50,28,21,38,11).
+\]
+For width nine use two lists of column indices
+$(0,7,2,6,9,3,8,1,4)$ and $(0,1,3,5,6,8,9,7,2)$.
+Cycle the first seven output positions and independently apply the cycle $(0\ 1\ 2)$ on the five labels of the index pairs. The two orbits have 21 layers each. For width ten use $(0,1,3,4,2,7,8,5,6,9)$. For $u\in\F_5$ and $t\in\Z/8$, act by $x\mapsto2^t x+u$ on the five labels and rotate the first eight output positions by $t$. The forty images form one orbit. Enumeration of colored rectangles gives 1008 distinct slots in the width-nine stack and 1200 in the width-ten stack, accounting for all $42\cdot24$ and $40\cdot30$ incidences. Equivalently the checker in \cite{data} tests every pair of layers directly. Deleting one row gives the five-row lower bounds. Hence
+\[
+ 42\le N(a,9)\le44,\qquad 40\le N(a,10)\le44\qquad(a=5,6).
+\]
+Sharpness of both upper bounds remains open.
+
+At $(b,h)=(10,44)$ use $t=2$ to get $z\le88$. For $a=5,6$ the projection inequality is tight ($5d=T$). Therefore every column word is balanced, every $m_{p,c}=88$, and every row has total weight 220. For each colored row pair the 44 layer degrees $k_\ell$ have mean two, with
+\[
+ \sum_\ell\binom{k_\ell}{2}=44+\frac12\sum_\ell(k_\ell-2)^2\le45 .
+\]
+They are all two, or there is one one and one three and all others are two. This gives a pruning rule even for searches allowing nonminimum layers. The accompanying proof in \cite{data} also shows that at least 37 of the 44 layers in the six-row case must be minimum, and that at height 45 the five- and six-row stacks contain at least seven and fourteen boxes, respectively.
+
+The same results give a minimal obstruction in the sense of \cite{cfp}: the grid $5\times7\times53$ forces a box, whereas reducing any one side by one permits a box-free coloring. For the three deletions use $N(4,7)=126$ above, $N(5,6)=75$ from \cite{alm}, and $N(5,7)=52$ from \cite{data}.
+
+At this first forced height, the five-box certificate in \cite{data} has one empty slot, 414 single slots and five double slots. Its first 52 layers occupy 416 different slots. This gives a second extremal coloring in which all 52 layers are minimum, in addition to the perfect 420-slot packing of \cite{data}. A four-box coloring would have all slots occupied and exactly four doubled. Comparing the two color totals on each row pair as in Theorem~\ref{t:57} forces two weight classes of sizes two and three, at weights 185 and 186. Each within-class row pair supports one doubled slot. The supplementary proof in \cite{data} shows that its full symmetry group has order at most two.
+
+\section*{Reproducibility}
+All verifiers are in \cite{data} and use the Python standard library. The file \path{check_short_slices.py} constructs colorings for Theorem~\ref{t:color} and counts rectangles and boxes directly. For Theorem~\ref{t:57}, run \path{verify_height_multiplicity.py} on the accompanying certificate files. The scripts \path{verify_six_row_stacks.py} and \path{verify_affine_stacks.py} check the six-row and independent five-row constructions. The mathematical proofs of Theorems~\ref{t:color}, \ref{t:transfer} and \ref{t:lattice}, and the direct eventual construction in Theorem~\ref{t:57}, do not require a search.
+
+\begin{thebibliography}{9}
+\bibitem{alm} J.~F. Alm and A. Miller, \emph{Constructive and computational methods for extremal and near-extremal box colorings}, 2026. \href{https://arxiv.org/abs/2611.19635}{arXiv:2611.19635v1}.
+\bibitem{cfp} J. Cooper, S. Fenner and S. Purewal, \emph{Monochromatic boxes in colored grids}, SIAM J. Discrete Math. 25 (2011), 1054--1068. \href{https://doi.org/10.1137/080740702}{doi:10.1137/080740702}.
+\bibitem{fggp} S. Fenner, W. Gasarch, C. Glover and S. Purewal, \emph{Rectangle free coloring of grids}, 2010. \href{https://arxiv.org/abs/1005.3750}{arXiv:1005.3750}.
+\bibitem{oneill} J. O'Neill, G. Ruiz-Navarro, J. Davidson and I. Wilbur, \emph{Monochromatic Rectangles in Grids}, Joint Mathematics Meetings, 2025, \href{https://meetings.ams.org/math/jmm2025/meetingapp.cgi/Paper/41246}{abstract 1203-05-41246}.
+\bibitem{data} \emph{Box-free colorings}, constructions, proofs and verification programs. \url{https://github.com/LiHaoze-Bob/box-free-colorings}.
+\end{thebibliography}
+\end{document}
